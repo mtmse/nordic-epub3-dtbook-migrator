@@ -79,8 +79,8 @@
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/mediatype-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/common-utils/library.xpl"/>
-    <p:import href="step/fileset-move.xpl"/>
-    <p:import href="step/fileset-store.xpl"/>
+<!--    <p:import href="step/fileset-move.xpl"/>-->
+<!--    <p:import href="step/fileset-store.xpl"/>-->
 
     <p:variable name="epub-href" select="resolve-uri($epub,base-uri(/*))">
         <p:inline>

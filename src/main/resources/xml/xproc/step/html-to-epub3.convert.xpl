@@ -4,7 +4,7 @@
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc/internal/nordic-epub3-dtbook-migrator">
 
-
+    
     <p:input port="fileset.in" primary="true"/>
     <p:input port="in-memory.in" sequence="true"/>
 
@@ -19,7 +19,7 @@
     <p:option name="compatibility-mode" select="'true'"/>
 
     <p:import href="html-split.split.xpl"/>
-    <p:import href="fileset-move.xpl"/>
+<!--    <p:import href="fileset-move.xpl"/>-->
     <p:import href="http://www.daisy.org/pipeline/modules/html-utils/library.xpl"/>
     <p:import href="epub3-nav-utils/xproc/epub3-nav-library.xpl"/>
     <!--<p:import href="http://www.daisy.org/pipeline/modules/epub3-nav-utils/library.xpl"/>-->
@@ -32,6 +32,9 @@
     <p:variable name="epub-dir" select="concat($temp-dir,'epub/')"/>
     <p:variable name="publication-dir" select="concat($epub-dir,'EPUB/')"/>
 
+    <p:identity>
+        <p:log port="result" href="file:/tmp/html-split.fileset.in.xml"/>
+    </p:identity>
     <px:nordic-html-split-perform name="html-split">
         <p:input port="in-memory.in">
             <p:pipe port="in-memory.in" step="main"/>
@@ -46,9 +49,12 @@
 
     <!-- Create spine -->
     <px:fileset-filter media-types="application/xhtml+xml"/>
-    <p:identity name="spine"/>
+    <p:identity name="spine">
+        <p:log port="result" href="file:/tmp/spine.xml"/>
+    </p:identity>
 
     <px:fileset-load name="spine-html">
+        <p:log port="result" href="file:/tmp/spine-html.xml"/>
         <p:input port="in-memory">
             <p:pipe port="in-memory.out" step="html-split.moved"/>
         </p:input>
@@ -67,6 +73,7 @@
 
     <!-- Create OPF metadata -->
     <p:xslt name="opf-metadata">
+        <p:log port="result" href="file:/tmp/opf-metadata.xml"/>
         <p:input port="parameters">
             <p:empty/>
         </p:input>
@@ -78,6 +85,7 @@
 
     <!-- Create Navigation Document -->
     <p:group name="nav">
+        <p:log port="html" href="file:/tmp/nav.html"/>
         <p:output port="html">
             <p:pipe port="result" step="nav.html"/>
         </p:output>
@@ -154,11 +162,7 @@
             <p:pipe port="html" step="nav"/>
             <p:pipe port="result" step="spine-html"/>
         </p:iteration-source>
-        <px:html-to-fileset>
-            <p:input port="fileset.in">
-                <p:pipe port="fileset.out" step="html-split.moved"/>
-            </p:input>
-        </px:html-to-fileset>
+        <px:html-to-fileset/>
     </p:for-each>
     <p:identity name="html-filesets"/>
     <px:fileset-create>
@@ -181,7 +185,39 @@
             <p:pipe port="result" step="html-filesets"/>
         </p:input>
     </px:fileset-join>
-    <px:mediatype-detect name="resource-fileset"/>
+    <p:viewport match="/*/d:file" name="annotate-original-href">
+        <!-- TODO: make this into a fileset-utils step which copied original-hrefs from one fileset to another -->
+        <p:variable name="href" select="/*/@href"/>
+        <p:filter name="original-file">
+            <p:with-option name="select" select="concat(&quot;/*/d:file[@href='&quot;,replace($href,&quot;'&quot;,&quot;''&quot;),&quot;']&quot;)"/>
+            <p:input port="source">
+                <p:pipe port="fileset.in" step="main"/>
+            </p:input>
+        </p:filter>
+        <p:count/>
+        <p:choose>
+            <p:when test=".=1 and /*/@original-href">
+                <p:add-attribute match="/*" attribute-name="original-href">
+                    <p:input port="source">
+                        <p:pipe port="current" step="annotate-original-href"/>
+                    </p:input>
+                    <p:with-option name="attribute-value" select="/*/@original-href">
+                        <p:pipe port="result" step="original-file"/>
+                    </p:with-option>
+                </p:add-attribute>
+            </p:when>
+            <p:otherwise>
+                <p:identity>
+                    <p:input port="source">
+                        <p:pipe port="current" step="annotate-original-href"/>
+                    </p:input>
+                </p:identity>
+            </p:otherwise>
+        </p:choose>
+    </p:viewport>
+    <px:mediatype-detect name="resource-fileset">
+        <p:log port="result" href="file:/tmp/resource-fileset.xml"/>
+    </px:mediatype-detect>
     <p:sink/>
 
     <px:epub3-pub-create-package-doc>
