@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:fileset xmlns:d="http://www.daisy.org/ns/pipeline/data">
+    <d:file href="images/valentin.jpg" media-type="image/jpeg" original-href="images/valentin.jpg"/>
+    <d:file href="C00000.xhtml" media-type="application/xhtml+xml"/>
+</d:fileset>

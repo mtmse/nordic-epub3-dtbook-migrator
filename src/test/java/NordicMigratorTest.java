@@ -3,20 +3,15 @@ import java.io.File;
 import javax.inject.Inject;
 
 import org.daisy.maven.xproc.xprocspec.XProcSpecRunner;
-import org.daisy.maven.xspec.TestResults;
-import org.daisy.maven.xspec.XSpecRunner;
 
 import static org.daisy.pipeline.pax.exam.Options.calabashConfigFile;
 import static org.daisy.pipeline.pax.exam.Options.domTraversalPackage;
 import static org.daisy.pipeline.pax.exam.Options.felixDeclarativeServices;
-//import static org.daisy.pipeline.pax.exam.Options.forThisPlatform;
 import static org.daisy.pipeline.pax.exam.Options.logbackBundles;
 import static org.daisy.pipeline.pax.exam.Options.logbackConfigFile;
 import static org.daisy.pipeline.pax.exam.Options.pipelineModule;
-//import static org.daisy.pipeline.pax.exam.Options.spiflyBundles;
 import static org.daisy.pipeline.pax.exam.Options.thisBundle;
 import static org.daisy.pipeline.pax.exam.Options.xprocspecBundles;
-import static org.daisy.pipeline.pax.exam.Options.xspecBundles;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,34 +58,14 @@ public class NordicMigratorTest {
             pipelineModule("html-utils"),
             pipelineModule("zip-utils"),
             pipelineModule("mediaoverlay-utils"),
-//            ... epubcheck does not work with Pipeline 2 v1.8 ...
-//            pipelineModule("epubcheck-adapter"),
-//            mavenBundle().groupId("org.idpf").artifactId("epubcheck").versionAsInProject(),
-//            mavenBundle().groupId("com.google.guava").artifactId("guava").versionAsInProject(),
-//            mavenBundle().groupId("org.apache.commons").artifactId("commons-compress").versionAsInProject(),
-//            mavenBundle().groupId("org.tukaani").artifactId("xz").versionAsInProject(),
             
             /* scripts */
             pipelineModule("dtbook-validator"),
             
-			xspecBundles(),
 			xprocspecBundles(),
 			thisBundle(),
 			junitBundles()
 		);
-	}
-	
-	@Inject
-	private XSpecRunner xspecRunner;
-	
-	@Test
-	public void runXSpec() throws Exception {
-		File baseDir = new File(PathUtils.getBaseDir());
-		File testsDir = new File(baseDir, "src/test/xspec");
-		File reportsDir = new File(baseDir, "target/surefire-reports");
-		reportsDir.mkdirs();
-		TestResults result = xspecRunner.run(testsDir, reportsDir);
-		assertEquals("Number of failures and errors should be zero", 0L, result.getFailures() + result.getErrors());
 	}
 	
 	@Inject
