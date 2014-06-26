@@ -47,7 +47,7 @@ public class NordicMigratorTest {
 			domTraversalPackage(),
 			logbackBundles(),
 			felixDeclarativeServices(),
-			
+            
 			/* common-utils */
             pipelineModule("common-utils"),
             pipelineModule("fileset-utils"),
@@ -63,8 +63,8 @@ public class NordicMigratorTest {
             pipelineModule("html-utils"),
             pipelineModule("zip-utils"),
             pipelineModule("mediaoverlay-utils"),
-            pipelineModule("epubcheck-adapter"),
 //            ... epubcheck does not work with Pipeline 2 v1.8 ...
+//            pipelineModule("epubcheck-adapter"),
 //            mavenBundle().groupId("org.idpf").artifactId("epubcheck").versionAsInProject(),
 //            mavenBundle().groupId("com.google.guava").artifactId("guava").versionAsInProject(),
 //            mavenBundle().groupId("org.apache.commons").artifactId("commons-compress").versionAsInProject(),

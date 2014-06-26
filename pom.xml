@@ -201,15 +201,15 @@
             <artifactId>mediaoverlay-utils</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
+            
+            epubcheck does not work with Pipeline 2 v1.8
+            
             <groupId>org.daisy.pipeline.modules</groupId>
             <artifactId>epubcheck-adapter</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>
-        
-            epubcheck does not work with Pipeline 2 v1.8
-        
+        <dependency>
             <groupId>org.idpf</groupId>
             <artifactId>epubcheck</artifactId>
             <version>3.0.1</version>

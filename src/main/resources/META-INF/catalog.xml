@@ -42,10 +42,9 @@
   <nextCatalog catalog="org:daisy:pipeline:modules:epub3-nav-utils"/>
   <nextCatalog catalog="org:daisy:pipeline:modules:epub3-ocf-utils"/>
   <nextCatalog catalog="org:daisy:pipeline:modules:epub3-pub-utils"/>
-  <nextCatalog catalog="org:daisy:pipeline:modules:epubcheck-adapter"/>
+<!--  <nextCatalog catalog="org:daisy:pipeline:modules:epubcheck-adapter"/>-->
   <nextCatalog catalog="org:daisy:pipeline:modules:html-utils"/>
   <nextCatalog catalog="org:daisy:pipeline:modules:zip-utils"/>
-  <nextCatalog catalog="org:daisy:pipeline:modules:mediaoverlay-utils"/>
   
   <!-- scripts -->
   <nextCatalog catalog="org:daisy:pipeline:modules:dtbook-validator"/>

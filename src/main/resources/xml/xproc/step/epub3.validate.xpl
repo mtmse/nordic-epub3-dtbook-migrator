@@ -42,11 +42,11 @@
     <p:import href="http://www.daisy.org/pipeline/modules/validation-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/common-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/mediatype-utils/library.xpl"/>
-    <p:import href="http://www.daisy.org/pipeline/modules/epubcheck-adapter/library.xpl"/>
+<!--    <p:import href="http://www.daisy.org/pipeline/modules/epubcheck-adapter/library.xpl"/>-->
 
     <p:variable name="basedir" select="if (/*/d:file[@media-type='application/epub+zip']) then $temp-dir else base-uri(/*)"/>
 
-    <p:choose>
+    <!--<p:choose>
         <p:when test="/*/d:file[@media-type='application/epub+zip']">
             <px:epubcheck mode="epub" version="3">
                 <p:with-option name="epub" select="(/*/d:file[@media-type='application/epub+zip'])[1]/resolve-uri(@href,base-uri(.))"/>
@@ -57,7 +57,36 @@
                 <p:with-option name="epub" select="(/*/d:file[@media-type='application/oebps-package+xml'])[1]/resolve-uri(@href,base-uri(.))"/>
             </px:epubcheck>
         </p:otherwise>
-    </p:choose>
+    </p:choose>-->
+    <p:group>
+        <!-- epubcheck-adapter is not working with Pipeline 2 v1.8; we're skipping epubcheck validation until that's fixed -->
+        <p:variable name="epub"
+            select="if (/*/d:file[@media-type='application/epub+zip']) then (/*/d:file[@media-type='application/epub+zip'])[1]/resolve-uri(@href,base-uri(.)) else (/*/d:file[@media-type='application/oebps-package+xml'])[1]/resolve-uri(@href,base-uri(.))"/>
+        <p:in-scope-names name="vars"/>
+        <p:template>
+            <p:input port="template">
+                <p:inline>
+                    <jhove xmlns="http://hul.harvard.edu/ois/xml/ns/jhove" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="epubcheck-adapter" release="x.x"
+                        date="{tokenize(string(current-date()),'\+')[1]}">
+                        <date>{current-dateTime()}</date>
+                        <repInfo uri="{$epub}">
+                            <messages>
+                                <message>WARN: {$epub}: EpubCheck is not available. Are you trying to run epubcheck through XProc from outside of the DAISY Pipeline 2 framework?</message>
+                            </messages>
+                        </repInfo>
+                    </jhove>
+                </p:inline>
+            </p:input>
+            <p:input port="source">
+                <p:inline>
+                    <irrelevant/>
+                </p:inline>
+            </p:input>
+            <p:input port="parameters">
+                <p:pipe step="vars" port="result"/>
+            </p:input>
+        </p:template>
+    </p:group>
     <p:xslt>
         <p:input port="parameters">
             <p:empty/>
@@ -290,7 +319,8 @@
         <!-- DOCTYPE declaration -->
         <p:choose>
             <p:when test="/*/@media-type='application/xhtml+xml'">
-                <px:message message="skipping doctype check for HTML document until &lt;!DOCTYPE html&gt; is supported in `p:store`. See: https://github.com/nlbdev/nordic-epub3-dtbook-migrator/issues/83"/>
+                <px:message
+                    message="skipping doctype check for HTML document until &lt;!DOCTYPE html&gt; is supported in `p:store`. See: https://github.com/nlbdev/nordic-epub3-dtbook-migrator/issues/83"/>
                 <p:identity>
                     <p:input port="source">
                         <p:empty/>
