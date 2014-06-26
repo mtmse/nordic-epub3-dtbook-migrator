@@ -293,6 +293,26 @@
                 </includes>
             </resource>
         </resources>
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-component-descriptors</id>
+                    <phase>generate-test-resources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/classes/OSGI-INF</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${project.build.directory}/generated-resources/OSGI-INF</directory>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
 
         <plugins>
             <!--<plugins>

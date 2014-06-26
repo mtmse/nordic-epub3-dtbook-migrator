@@ -9,11 +9,11 @@ import org.daisy.maven.xspec.XSpecRunner;
 import static org.daisy.pipeline.pax.exam.Options.calabashConfigFile;
 import static org.daisy.pipeline.pax.exam.Options.domTraversalPackage;
 import static org.daisy.pipeline.pax.exam.Options.felixDeclarativeServices;
-import static org.daisy.pipeline.pax.exam.Options.forThisPlatform;
+//import static org.daisy.pipeline.pax.exam.Options.forThisPlatform;
 import static org.daisy.pipeline.pax.exam.Options.logbackBundles;
 import static org.daisy.pipeline.pax.exam.Options.logbackConfigFile;
 import static org.daisy.pipeline.pax.exam.Options.pipelineModule;
-import static org.daisy.pipeline.pax.exam.Options.spiflyBundles;
+//import static org.daisy.pipeline.pax.exam.Options.spiflyBundles;
 import static org.daisy.pipeline.pax.exam.Options.thisBundle;
 import static org.daisy.pipeline.pax.exam.Options.xprocspecBundles;
 import static org.daisy.pipeline.pax.exam.Options.xspecBundles;
@@ -42,7 +42,7 @@ public class NordicMigratorTest {
 	@Configuration
 	public Option[] config() {
 		return options(
-			logbackConfigFile(),
+            logbackConfigFile(),
 			calabashConfigFile(),
 			domTraversalPackage(),
 			logbackBundles(),
