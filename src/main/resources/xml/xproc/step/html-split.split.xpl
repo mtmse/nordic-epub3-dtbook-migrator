@@ -4,14 +4,14 @@
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc/internal/nordic-epub3-dtbook-migrator">
 
     <p:input port="fileset.in" primary="true"/>
-<!--    <p:input port="in-memory.in" sequence="true"/>-->
+    <p:input port="in-memory.in" sequence="true"/>
 
     <p:output port="fileset.out" primary="true">
-        <p:pipe port="result" step="for-each.fileset"/>
+        <p:pipe port="result" step="fileset.result"/>
     </p:output>
-    <!--<p:output port="in-memory.out" sequence="true">
+    <p:output port="in-memory.out" sequence="true">
         <p:pipe port="result" step="in-memory.html"/>
-    </p:output>-->
+    </p:output>
 
     <p:identity>
         <p:input port="source">
@@ -56,11 +56,11 @@
     <p:identity name="in-memory.html"/>
     <p:sink/>
 
-    <!--<p:identity>
+    <p:identity>
         <p:input port="source">
             <p:pipe port="result" step="for-each.fileset"/>
         </p:input>
     </p:identity>
-    <p:identity name="fileset.result"/>-->
+    <p:identity name="fileset.result"/>
 
 </p:declare-step>
